@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd `dirname $0`
+dest="$1"
+rsync -e 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /opt/tkeith-migrator/id_rsa' -aHAXESzx --delete --exclude-from="exclude-files" / "root@$dest:/"
