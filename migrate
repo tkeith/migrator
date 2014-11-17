@@ -11,8 +11,7 @@ cd `dirname $0`
 orig=$1
 dest=$2
 
-rm -rf /tmp/tkeith-migrator
-mkdir /tmp/tkeith-migrator
+tmp=`mktemp -d 2>/dev/null || mktemp -d -t 'tmp'`
 
 echo "Copying migration scripts to origin"
 rsync -e 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' -a --delete . root@"$orig":/opt/tkeith-migrator
@@ -27,11 +26,11 @@ echo "Stopping services on destination"
 ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@"$dest" /opt/tkeith-migrator/stop-services
 
 echo "Generating SSH key"
-ssh-keygen -f /tmp/tkeith-migrator/id_rsa -t rsa -N ''
+ssh-keygen -f "$tmp"/id_rsa -t rsa -N ''
 
 echo "Copying SSH key"
-rsync -e 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' -a /tmp/tkeith-migrator/id_rsa root@"$orig":/opt/tkeith-migrator/
-rsync -e 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' -a /tmp/tkeith-migrator/id_rsa.pub root@"$dest":/opt/tkeith-migrator/
+rsync -e 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' -a "$tmp"/id_rsa root@"$orig":/opt/tkeith-migrator/
+rsync -e 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' -a "$tmp"/id_rsa.pub root@"$dest":/opt/tkeith-migrator/
 ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@"$dest" "mkdir /root/.ssh; cat /opt/tkeith-migrator/id_rsa.pub >> /root/.ssh/authorized_keys"
 
 echo "Migrating files"
