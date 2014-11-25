@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# TO DO MANUALLY: Ensure DNS servers are correct in /etc/resolv.conf, ensure swap is setup
+# TO DO MANUALLY: Ensure DNS servers are correct in /etc/resolv.conf, ensure swap is setup, restart at end
 
 if [ "$#" -ne 2 ]; then
     echo "Usage: migrate <origin> <destination>"
