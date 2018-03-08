@@ -2,7 +2,7 @@
 
 import subprocess as sp
 
-sys_services = ['acpid', 'apparmor', 'networking', 'ssh', 'udev', 'dbus', 'console-setup', 'dns-clean', 'friendly-recovery', 'irqbalance', 'killprocs', 'kmod', 'pppd-dns', 'ondemand', 'grub-common', 'screen-cleanup', 'sudo', 'resolvconf', 'rsync', 'rsyslog', 'sendsigs', 'umountfs', 'umountnfs.sh', 'umountroot', 'urandom', 'procps']
+sys_services = ['acpid', 'apparmor', 'networking', 'ssh', 'udev', 'dbus', 'console-setup', 'dns-clean', 'friendly-recovery', 'irqbalance', 'killprocs', 'kmod', 'pppd-dns', 'ondemand', 'grub-common', 'screen-cleanup', 'sudo', 'resolvconf', 'rsync', 'rsyslog', 'sendsigs', 'umountfs', 'umountnfs.sh', 'umountroot', 'urandom', 'procps', 'salt-minion', 'salt-master']
 
 def main():
     output = sp.check_output(['service', '--status-all'], stderr=sp.STDOUT)
