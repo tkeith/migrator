@@ -2,6 +2,8 @@
 
 # TO DO MANUALLY: Ensure DNS servers are correct in /etc/resolv.conf, ensure swap is setup, restart at end
 
+set -e
+
 if [ "$#" -ne 2 ]; then
     echo "Usage: migrate <origin> <destination>"
     exit
@@ -10,6 +12,12 @@ fi
 cd `dirname $0`
 orig=$1
 dest=$2
+
+echo Migrating from $orig to $dest in 5 seconds, press ctrl-c to cancel...
+
+sleep 5
+
+echo Starting migration
 
 tmp=`mktemp -d 2>/dev/null || mktemp -d -t 'tmp'`
 
@@ -35,3 +43,7 @@ ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@"$dest" "mk
 
 echo "Migrating files"
 ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@"$orig" /opt/tkeith-migrator/do-migrate-files "$dest"
+
+echo
+echo
+echo 'MIGRATION COMPLETE - NOW RESTART DESTINGATION SERVER, AND DESTROY SOURCE'
