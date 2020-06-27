@@ -2,4 +2,4 @@
 
 cd `dirname $0`
 dest="$1"
-rsync -e 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /opt/tkeith-migrator/id_rsa' -aHAXESzx --delete --exclude-from="exclude-files" / "root@$dest:/"
+rsync -e 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /opt/tkeith-migrator/id_rsa' -aHAXESzx --exclude=/dev --exclude=/sys --exclude=/tmp --exclude=/etc/conf.d/net --exclude=/etc/fstab --exclude=/etc/mdadm* --exclude=/etc/mtab --exclude=/etc/network --exclude=/etc/networks --exclude=/etc/udev --exclude=/swapfile --exclude=/proc --exclude=/mnt --exclude=/media --exclude=/home/*/.gvfs --exclude=/boot --exclude=/etc/sysconfig/network-scripts/* --exclude=/etc/default/grub --exclude=/etc/sysconfig/network* --exclude=/net --exclude=/etc/systemd/network / "root@$dest:/"

@@ -1,11 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import subprocess as sp
 
 sys_services = ['acpid', 'apparmor', 'networking', 'ssh', 'udev', 'dbus', 'console-setup', 'dns-clean', 'friendly-recovery', 'irqbalance', 'killprocs', 'kmod', 'pppd-dns', 'ondemand', 'grub-common', 'screen-cleanup', 'sudo', 'resolvconf', 'rsync', 'rsyslog', 'sendsigs', 'umountfs', 'umountnfs.sh', 'umountroot', 'urandom', 'procps', 'salt-minion', 'salt-master']
 
 def main():
-    output = sp.check_output(['service', '--status-all'], stderr=sp.STDOUT)
+    output = sp.check_output(['service', '--status-all'], stderr=sp.STDOUT).decode()
     output = output.split('\n')
     output = [line[8:] for line in output]
     output = [line.strip() for line in output]
@@ -15,11 +15,14 @@ def main():
 
     for service in running_services:
         if service in sys_services:
+            print('not stopping system service {}'.format(service))
             continue
         try:
+            print('stopping {}'.format(service))
             sp.check_output(['service', service, 'stop'], stderr=sp.STDOUT)
         except sp.CalledProcessError:
             pass
 
 if __name__ == '__main__':
     main()
+

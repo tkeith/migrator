@@ -28,10 +28,10 @@ echo "Copying migration scripts to destination"
 rsync -e 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' -a --delete . root@"$dest":/opt/tkeith-migrator
 
 echo "Stopping services on origin"
-ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@"$orig" /opt/tkeith-migrator/stop-services
+ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@"$orig" "/opt/tkeith-migrator/stop-services"
 
 echo "Stopping services on destination"
-ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@"$dest" /opt/tkeith-migrator/stop-services
+ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@"$dest" "/opt/tkeith-migrator/stop-services"
 
 echo "Generating SSH key"
 ssh-keygen -f "$tmp"/id_rsa -t rsa -N ''
